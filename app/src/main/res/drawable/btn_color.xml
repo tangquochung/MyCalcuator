@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+//pink color when no interact
+  <item android:state_pressed="false" android:drawable="@color/btnKeyBoard"></item>
+//green color when no interact
+  <item android:state_pressed="true" android:drawable="@color/btnKeyBoardPress"></item>
+</selector>
