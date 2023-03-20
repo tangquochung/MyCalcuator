@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Create solid shape-->
-<shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Create Layout background color-->
-    <solid android:color="@android:color/white"/>
-    <!-- Create 2dp Border for Layout-->
-    <stroke android:color="@android:color/black" android:width="2dp"/>
-</shape>
