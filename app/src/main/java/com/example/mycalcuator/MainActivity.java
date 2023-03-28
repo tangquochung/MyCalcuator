@@ -2,7 +2,12 @@ package com.example.mycalcuator;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,10 +19,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     TextView resultTv, solutionTv;
     MaterialButton buttonC, buttonBrakeOpen, getButtonBrakeClose;
-    MaterialButton buttonDivide, buttonMultiply, buttonPlus, buttonEquals;
+    MaterialButton buttonDivide, buttonMultiply, buttonPlus, buttonMinus, buttonEquals;
     MaterialButton button0, button1, button2, button3, button4, button5, button6, button7, button8, button9;
     MaterialButton buttonAC, buttonDot;
 
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         assignId(buttonDivide, R.id.button_divide);
         assignId(buttonMultiply, R.id.button_multiply);
         assignId(buttonPlus, R.id.button_plus);
+        assignId(buttonMinus, R.id.button_minus);
         assignId(buttonEquals, R.id.button_equal);
         assignId(button0, R.id.button_0);
         assignId(button1, R.id.button_1);
@@ -46,6 +53,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         assignId(buttonAC, R.id.button_ac);
         assignId(buttonDot, R.id.button_dot);
 
+        sharedPreferences = this.getSharedPreferences("com.example.mycalcuator", android.content.Context.MODE_PRIVATE);
+
+        String previous = sharedPreferences.getString("preResult", "");
+
+        Log.i("previous result", previous);
+
+        solutionTv.setText(previous);
     }
 
     void assignId(MaterialButton btn,int id){
@@ -55,32 +69,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        MaterialButton button = (MaterialButton) view;
+
+        MaterialButton button =(MaterialButton) view;
         String buttonText = button.getText().toString();
-        String dataToCalculate = solutionTv.getText().toString();
+        String dataToCalculate = resultTv.getText().toString();
 
         if(buttonText.equals("AC")){
-            solutionTv.setText("");
+
             resultTv.setText("0");
             return;
         }
+
         if(buttonText.equals("=")){
-            solutionTv.setText(resultTv.getText());
+            String finalResult = getResult(dataToCalculate);
+            resultTv.setText(finalResult);
+            String preResult = dataToCalculate + "=" + finalResult;
+
+            // Store previous result to shared preferences
+            sharedPreferences.edit().putString("preResult", preResult).apply();
+
+            // Update previous result
+            String previous = sharedPreferences.getString("preResult", "");
+
+            Log.i("previous result", previous);
+
+            solutionTv.setText(previous);
+
             return;
         }
         if(buttonText.equals("C")){
             dataToCalculate = dataToCalculate.substring(0, dataToCalculate.length()-1);
-        }
-        else {
+        }else{
             dataToCalculate = dataToCalculate + buttonText;
         }
-        solutionTv.setText(dataToCalculate);
-
-        String finalResult = getResult(dataToCalculate);
-
-        if(!finalResult.equals("Err")){
-            resultTv.setText(finalResult);
-        }
+        resultTv.setText(dataToCalculate);
 
     }
     String getResult(String data){
