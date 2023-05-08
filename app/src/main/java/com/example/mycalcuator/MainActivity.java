@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     MaterialButton buttonC, buttonBrakeOpen, getButtonBrakeClose;
     MaterialButton buttonDivide, buttonMultiply, buttonPlus, buttonMinus, buttonEquals;
     MaterialButton button0, button1, button2, button3, button4, button5, button6, button7, button8, button9;
-    MaterialButton buttonAC, buttonDot;
+    MaterialButton buttonAC, buttonDot, buttonCompass;
     Gson gson = new Gson();
     SharedPreferences sharedPreferences;
 
@@ -68,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         assignId(button9, R.id.button_9);
         assignId(buttonAC, R.id.button_ac);
         assignId(buttonDot, R.id.button_dot);
+        assignId(buttonCompass, R.id.bnt_Compass);
 
         // Store Previous Result
         sharedPreferences = this.getSharedPreferences("com.example.mycalcuator", android.content.Context.MODE_PRIVATE);
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     // Check if history.json exist
                     File historyFile = new File(path + "/history.json");
                     boolean isHistoryFileExist = historyFile.exists();
-                    if (isHistoryFileExist == false) {
+                    if (!isHistoryFileExist) {
                         try{
                             FileOutputStream writer = new FileOutputStream(new File(path, "history.json"));
                             HistoryOperation historyOperation = new HistoryOperation(solutionTv.getText().toString(), resultTv.getText().toString());
@@ -189,6 +190,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             return;
         }
+
+        if(buttonText.equals("Compass")) {
+            Intent intent_compass = new Intent(this, CompassActivity.class);
+            startActivity(intent_compass);
+        }
+
         if(buttonText.equals("C")){
             dataToCalculate = dataToCalculate.substring(0, dataToCalculate.length()-1);
         }else{
