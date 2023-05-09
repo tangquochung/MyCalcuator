@@ -192,8 +192,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         if(buttonText.equals("Compass")) {
-            Intent intent_compass = new Intent(this, CompassActivity.class);
-            startActivity(intent_compass);
+            OpenCompass();
+            return;
         }
 
         if(buttonText.equals("C")){
@@ -224,6 +224,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Intent intent = new Intent(this, HistoryActivity.class);
         intent.putExtra("HistoryCount", String.valueOf(historyCount));
         startActivity(intent);
+    }
+
+    public void OpenCompass() {
+        Intent intent_compass = new Intent(this, CompassActivity.class);
+        startActivity(intent_compass);
     }
 //
 //    public void next_exercise(View view) {

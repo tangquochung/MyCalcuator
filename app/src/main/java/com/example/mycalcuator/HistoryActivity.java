@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,7 +23,7 @@ public class HistoryActivity extends AppCompatActivity {
 
     Gson gson = new Gson();
     ListView lv_history;
-
+    Button btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +31,14 @@ public class HistoryActivity extends AppCompatActivity {
         Intent intent = getIntent();
         String historyCount = intent.getStringExtra("HistoryCount");
         lv_history = findViewById(R.id.lvHistory);
+        btnBack = findViewById(R.id.btnBack);
 
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         // Create a thread for reading history operation
         Thread ReadHistoryOperationThread = new Thread(new Runnable() {
